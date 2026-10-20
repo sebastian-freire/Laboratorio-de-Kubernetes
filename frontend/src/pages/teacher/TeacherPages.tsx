@@ -59,6 +59,14 @@ export function TeacherSubjectsPage() {
           ))}
         </ul>
       )}
+      {data && data.length >= 2 && (
+        <Link
+          to="/docente/comparar"
+          className="mt-4 flex min-h-12 items-center justify-center rounded-xl border-2 border-line bg-surface font-semibold hover:border-muted"
+        >
+          Comparar mis materias
+        </Link>
+      )}
     </>
   )
 }

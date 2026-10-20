@@ -50,6 +50,7 @@ export function TrendChart({ classes }: { classes: ClassSummary[] }) {
             tick={{ fill: 'var(--muted)', fontSize: 12 }}
             interval="preserveStartEnd"
             minTickGap={24}
+            tickMargin={8}
           />
           <YAxis
             domain={[1, 5]}

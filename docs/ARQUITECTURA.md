@@ -101,11 +101,12 @@ erDiagram
 | `GET` · `POST` · `PUT /api/student/classes/{id}/feedback` | alumno | Ver, crear (409 si ya existe) y editar mi feedback (dentro del plazo). |
 | `GET /api/teacher/subjects` · `GET /api/teacher/subjects/{id}/summary` | docente | Mis materias con su código; promedio y cantidad de respuestas por clase (tendencia). |
 | `GET /api/teacher/classes/{id}/comments` | docente | Comentarios anónimos de una clase. |
+| `GET /api/teacher/subjects/{id}/export.csv` · `/top-words` · `GET /api/teacher/comparison` ² | docente | Extras: planilla anónima, palabras más repetidas, comparación entre sus materias. |
 | `GET` · `POST /api/admin/users` · `PUT /api/admin/users/{id}/roles` | admin | Gestión de cuentas y roles. |
 | `GET` · `POST /api/admin/subjects` · `PUT /api/admin/subjects/{id}/teachers` | admin | Materias y docentes asignados. |
 | `POST /api/admin/subjects/{id}/classes/generate` · `DELETE /api/admin/classes/{id}` | admin | Generar clases por calendario; eliminar una clase sin feedback. |
 
-¹ Agregado durante la Fase 5 (ver D-053); el resto de la tabla es la versión inicial.
+¹ Agregado durante la Fase 5 (ver D-053). ² Extras de la Fase 6 (D-058 a D-061). El resto de la tabla es la versión inicial.
 
 ## 5. Estructura del repositorio (monorepo, D-001)
 

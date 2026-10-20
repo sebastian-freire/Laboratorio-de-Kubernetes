@@ -65,3 +65,15 @@ export type AdminSubject = {
 export type AdminClass = { id: number; date: string; start_time: string; can_delete: boolean }
 export type AdminSubjectDetail = AdminSubject & { classes: AdminClass[] }
 export type ScheduleRule = { weekday: number; start_time: string }
+
+export type WordCount = { word: string; count: number }
+export type TopWords = { liked: WordCount[]; disliked: WordCount[] }
+export type SubjectComparison = {
+  id: number
+  name: string
+  average: number | null
+  response_count: number
+  past_class_count: number
+  student_count: number
+  participation: number | null
+}

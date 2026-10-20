@@ -19,6 +19,8 @@ def create_app() -> FastAPI:
         allow_origins=settings.cors_origin_list,
         allow_methods=["*"],
         allow_headers=["*"],
+        # Para que el frontend lea el nombre del archivo de la planilla exportada.
+        expose_headers=["Content-Disposition"],
     )
     for module in (health, auth, student, teacher, admin):
         app.include_router(module.router, prefix="/api")

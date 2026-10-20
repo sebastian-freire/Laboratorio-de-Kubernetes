@@ -1,11 +1,73 @@
+import { useState } from 'react'
 import { Link, useParams } from 'react-router'
-import type { SubjectSummary } from '../../api/types'
+import { apiDownload, ApiError } from '../../api/client'
+import type { SubjectSummary, TopWords, WordCount } from '../../api/types'
+import { BarList } from '../../components/BarList'
 import { Face } from '../../components/Face'
 import { TrendChart } from '../../components/TrendChart'
-import { Alert, EmptyState, Loading, PageHeader } from '../../components/ui'
+import { Alert, Button, EmptyState, Loading, PageHeader } from '../../components/ui'
 import { dateShort, formatAverage, plural, timeShort } from '../../lib/format'
 import { useApi } from '../../lib/useApi'
 import { EnrollmentCode } from './TeacherPages'
+
+function WordColumn({ title, words }: { title: string; words: WordCount[] }) {
+  return (
+    <div>
+      <h3 className="mb-3 font-semibold">{title}</h3>
+      {words.length === 0 ? (
+        <p className="text-sm text-muted">Sin comentarios todavía.</p>
+      ) : (
+        <BarList
+          label={title}
+          max={words[0].count}
+          bars={words.map((w) => ({ label: w.word, value: w.count, display: String(w.count) }))}
+        />
+      )}
+    </div>
+  )
+}
+
+function TopWordsSection({ subjectId }: { subjectId: string }) {
+  const { data, error } = useApi<TopWords>(`/teacher/subjects/${subjectId}/top-words?limit=8`)
+  return (
+    <section className="mb-8">
+      <h2 className="mb-1 text-xl font-bold">Palabras más repetidas</h2>
+      <p className="mb-4 text-sm text-muted">En los comentarios de todo el semestre, sin contar palabras comunes.</p>
+      {error && <Alert>{error.message}</Alert>}
+      {data && (
+        <div className="grid gap-6 rounded-2xl bg-surface p-4 sm:grid-cols-2">
+          <WordColumn title="En lo que gustó" words={data.liked} />
+          <WordColumn title="En lo que no gustó" words={data.disliked} />
+        </div>
+      )}
+    </section>
+  )
+}
+
+function DownloadButton({ subjectId }: { subjectId: string }) {
+  const [error, setError] = useState<string | null>(null)
+  const [busy, setBusy] = useState(false)
+  const download = async () => {
+    setError(null)
+    setBusy(true)
+    try {
+      await apiDownload(`/teacher/subjects/${subjectId}/export.csv`, 'feedback.csv')
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'No se pudo descargar la planilla.')
+    } finally {
+      setBusy(false)
+    }
+  }
+  return (
+    <div className="mt-6 flex flex-col gap-2">
+      <Button variant="secondary" onClick={download} disabled={busy}>
+        {busy ? 'Preparando…' : 'Descargar planilla (CSV)'}
+      </Button>
+      <p className="text-center text-sm text-muted">Todas las respuestas, anónimas, para abrir en Excel o similar.</p>
+      {error && <Alert>{error}</Alert>}
+    </div>
+  )
+}
 
 // --- Una materia: promedio por clase y tendencia ---
 
@@ -51,6 +113,8 @@ export function TeacherSubjectPage() {
           <TrendChart classes={classes} />
         </div>
       </section>
+
+      <TopWordsSection subjectId={String(subjectId)} />
 
       <section>
         <h2 className="mb-3 text-xl font-bold">Clases</h2>
@@ -106,6 +170,8 @@ export function TeacherSubjectPage() {
           </div>
         )}
       </section>
+
+      <DownloadButton subjectId={String(subjectId)} />
     </>
   )
 }

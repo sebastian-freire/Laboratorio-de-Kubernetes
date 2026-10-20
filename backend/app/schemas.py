@@ -217,3 +217,28 @@ class GenerateClassesRequest(BaseModel):
 class GenerateClassesOut(BaseModel):
     created: int
     skipped: int
+
+
+# --- Docente: extras (Fase 6) ---
+
+
+class WordCount(BaseModel):
+    word: str
+    count: int
+
+
+class TopWordsOut(BaseModel):
+    liked: list[WordCount]
+    disliked: list[WordCount]
+
+
+class SubjectComparisonOut(BaseModel):
+    id: int
+    name: str
+    average: float | None
+    response_count: int
+    past_class_count: int
+    student_count: int
+    participation: float | None = Field(
+        description="Respuestas / (alumnos inscriptos × clases dictadas), entre 0 y 1"
+    )

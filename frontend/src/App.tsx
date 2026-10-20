@@ -9,6 +9,7 @@ import { AdminSubjectPage, AdminSubjectsPage, AdminUsersPage } from './pages/adm
 import { ROLE_HOME } from './lib/roles'
 import { LoginPage, RegisterPage } from './pages/AuthPages'
 import { FeedbackPage, StudentClassesPage, StudentSubjectsPage } from './pages/student/StudentPages'
+import { TeacherComparisonPage } from './pages/teacher/TeacherComparisonPage'
 import { TeacherClassPage, TeacherSubjectsPage } from './pages/teacher/TeacherPages'
 
 // El gráfico (Recharts) es pesado: se descarga solo cuando el docente abre una materia.
@@ -52,6 +53,7 @@ function AppRoutes() {
         <Route path="alumno/clases/:classId" element={<RequireRole role="student"><FeedbackPage /></RequireRole>} />
         <Route path="docente" element={<RequireRole role="teacher"><TeacherSubjectsPage /></RequireRole>} />
         <Route path="docente/materias/:subjectId" element={<RequireRole role="teacher"><TeacherSubjectPage /></RequireRole>} />
+        <Route path="docente/comparar" element={<RequireRole role="teacher"><TeacherComparisonPage /></RequireRole>} />
         <Route path="docente/clases/:classId" element={<RequireRole role="teacher"><TeacherClassPage /></RequireRole>} />
         <Route path="admin" element={<RequireRole role="admin"><AdminSubjectsPage /></RequireRole>} />
         <Route path="admin/materias/:subjectId" element={<RequireRole role="admin"><AdminSubjectPage /></RequireRole>} />
