@@ -167,7 +167,7 @@ Todas con **Origen: Asistente (autorizado por D-030)**.
 | D-052 | Estilo visual (**reemplazada por D-064**) | Genérico de librería · Identidad propia | **"Aula": tinta azul `#1B2541`, verde pizarrón `#16805A`, amarillo resaltador para lo que espera acción del alumno, rojo corrección para errores; las caritas como elemento distintivo** | Ligado al tema (clases), alto contraste y legible en el celular. Color de la línea del gráfico validado con el validador de paletas (claro y oscuro). | Asistente (D-030) |
 | D-053 | Cómo carga el formulario una clase suelta | Recorrer todas las materias · Endpoint nuevo | **Nuevo `GET /api/student/classes/{id}`** (con pruebas) | Una request en lugar de N; reutiliza la autorización por inscripción. | Asistente (D-030) |
 | D-054 | Tipografía | Google Fonts por CDN · Fuente autoalojada | **Atkinson Hyperlegible Next autoalojada (`@fontsource-variable`)** | Diseñada para legibilidad; sin depender de servicios externos en el cluster. | Asistente (D-030) |
-| D-055 | Modo oscuro | No · Automático según el sistema | **Automático (`prefers-color-scheme`)** con tokens propios | Mismo esfuerzo con variables CSS; colores del gráfico validados contra el fondo oscuro. | Asistente (D-030) |
+| D-055 | Modo oscuro (**reemplazada por D-065**) | No · Automático según el sistema | **Automático (`prefers-color-scheme`)** con tokens propios | Mismo esfuerzo con variables CSS; colores del gráfico validados contra el fondo oscuro. | Asistente (D-030) |
 | D-056 | Peso del bundle | Todo junto · Carga diferida del gráfico | **La pantalla con Recharts se carga diferida** | El bundle inicial baja de ~650 kB a ~300 kB; alumnos y admins no descargan la librería de gráficos. | Parámetro normal |
 | D-057 | Clases sin respuestas en el gráfico | Puntos en 0 · Unir con línea · Omitir | **Se omiten del gráfico y figuran en la tabla con "–"** | Una clase sin datos no es un promedio de cero. | Asistente (D-030) |
 
@@ -210,3 +210,11 @@ Los tres extras se hicieron por la autorización D-030 ("hacé todo").
   - las clases futuras se resumen en una línea en lugar de listarse;
   - **se mantienen** las caritas, todas las pantallas y la lógica.
 - **Motivo:** aspecto serio y consistente con poco esfuerzo, sin dependencias nuevas.
+
+## D-065 — Siempre en modo claro (reemplaza a D-055)
+
+- **Fecha:** 2026-10-20 · **Origen:** Equipo (encuesta)
+- **Contexto:** con el sistema en modo oscuro la app se veía oscura, y el equipo esperaba el fondo blanco del estilo D-064.
+- **Opciones:** siempre claro · claro con botón para cambiar · automático según el sistema
+- **Elegida:** **siempre claro** (`color-scheme: light`, sin variantes oscuras).
+- **Motivo:** coincide con el estilo elegido y todos ven la app igual.

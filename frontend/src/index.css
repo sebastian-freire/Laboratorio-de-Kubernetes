@@ -4,8 +4,8 @@
 /*
  * Tokens de diseño: estilo sobrio institucional (D-064).
  * Fondo blanco, un solo color de marca (azul), grises neutros y líneas finas.
- * Las utilidades de Tailwind (bg-surface, text-ink, etc.) leen estas variables,
- * así el modo oscuro solo redefine los valores.
+ * Siempre en modo claro, sin importar la configuración del sistema (D-065).
+ * Las utilidades de Tailwind (bg-surface, text-ink, etc.) leen estas variables.
  */
 @theme {
   --font-sans: 'Inter Variable', system-ui, sans-serif;
@@ -50,30 +50,6 @@
   --face-3: #8a93a8;
   --face-4: #4b9f7b;
   --face-5: #16805a;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --canvas: #0b1120;
-    --surface: #0f172a;
-    --subtle: #111c33;
-    --ink: #e2e8f0;
-    --muted: #94a3b8;
-    --line: #1e293b;
-    --brand: #3b82f6; /* validado contra --surface oscuro */
-    --brand-soft: #172554;
-    --on-brand: #0b1120;
-    --success: #4ade80;
-    --success-soft: #052e16;
-    --danger: #f87171;
-    --danger-soft: #3b1219;
-    --face-1: #e8675f;
-    --face-2: #e99a6f;
-    --face-3: #8d97ad;
-    --face-4: #5cb58e;
-    --face-5: #2fa374;
-  }
 }
 
 /* En @layer base para que las utilidades (por ejemplo outline-none) puedan pisarlas. */
