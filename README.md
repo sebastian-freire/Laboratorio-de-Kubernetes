@@ -53,6 +53,21 @@ npm run dev
 
 > En PowerShell, `cp` funciona igual (es un alias de `Copy-Item`).
 
+## Probar desde el celular
+
+Con el celular en la **misma red Wi‑Fi** que la PC:
+
+1. Averiguá la IP local de la PC (`ipconfig` en Windows; por ejemplo `192.168.1.20`).
+2. En el `.env`, cambiá:
+   ```
+   VITE_API_URL=http://<IP>:8000
+   CORS_ORIGINS=http://localhost:5173,http://<IP>:5173
+   ```
+3. Levantá el backend con `uv run uvicorn app.main:app --host 0.0.0.0 --port 8000` y el frontend con `npm run dev -- --host`.
+4. En el celular, abrí `http://<IP>:5173`.
+
+Si Windows pregunta por el firewall, permití el acceso solo en **redes privadas**. En redes públicas o de la facultad, la conexión entre dispositivos puede estar bloqueada; en ese caso usá el modo dispositivo del navegador (F12, ícono de celular). Al terminar, volvé a dejar el `.env` como estaba.
+
 ## Usuarios de prueba (seed)
 
 Todos usan la contraseña definida en `SEED_USER_PASSWORD` (por defecto `demo1234`). Son datos ficticios con el dominio reservado `example.com`.
