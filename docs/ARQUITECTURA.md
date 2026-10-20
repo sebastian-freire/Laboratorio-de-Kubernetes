@@ -97,12 +97,15 @@ erDiagram
 | `POST /api/auth/register` · `POST /api/auth/login` · `GET /api/auth/me` | público / autenticado | Registro de alumno, login (JWT), usuario actual con sus roles. |
 | `POST /api/student/enrollments` | alumno | Inscribirse con código (404 inválido, 409 ya inscripto o docente de la materia). |
 | `GET /api/student/subjects` · `GET /api/student/subjects/{id}/classes` | alumno | Mis materias; clases con estado (`upcoming`, `open`, `closed`) y si ya tienen mi feedback. |
+| `GET /api/student/classes/{id}` ¹ | alumno | Una clase con su materia y mi estado (para el formulario). |
 | `GET` · `POST` · `PUT /api/student/classes/{id}/feedback` | alumno | Ver, crear (409 si ya existe) y editar mi feedback (dentro del plazo). |
 | `GET /api/teacher/subjects` · `GET /api/teacher/subjects/{id}/summary` | docente | Mis materias con su código; promedio y cantidad de respuestas por clase (tendencia). |
 | `GET /api/teacher/classes/{id}/comments` | docente | Comentarios anónimos de una clase. |
 | `GET` · `POST /api/admin/users` · `PUT /api/admin/users/{id}/roles` | admin | Gestión de cuentas y roles. |
 | `GET` · `POST /api/admin/subjects` · `PUT /api/admin/subjects/{id}/teachers` | admin | Materias y docentes asignados. |
 | `POST /api/admin/subjects/{id}/classes/generate` · `DELETE /api/admin/classes/{id}` | admin | Generar clases por calendario; eliminar una clase sin feedback. |
+
+¹ Agregado durante la Fase 5 (ver D-053); el resto de la tabla es la versión inicial.
 
 ## 5. Estructura del repositorio (monorepo, D-001)
 

@@ -9,6 +9,7 @@ from app.models import ClassSession, Enrollment, Feedback, Subject, SubjectTeach
 from app.schemas import (
     EnrollRequest,
     FeedbackIn,
+    StudentClassDetailOut,
     StudentClassOut,
     StudentFeedbackOut,
     StudentSubjectClassesOut,
@@ -77,6 +78,17 @@ def to_feedback_out(feedback: Feedback, class_session: ClassSession) -> StudentF
     )
 
 
+def to_class_out(class_session: ClassSession, has_feedback: bool) -> StudentClassOut:
+    return StudentClassOut(
+        id=class_session.id,
+        date=class_session.date,
+        start_time=class_session.start_time,
+        window_state=window_state(class_session.date),
+        closes_on=closes_on(class_session.date),
+        has_feedback=has_feedback,
+    )
+
+
 def find_own_feedback(db: DbSession, student: User, class_id: int) -> Feedback | None:
     return db.scalar(
         select(Feedback).where(
@@ -136,18 +148,19 @@ def subject_classes(
         .where(ClassSession.subject_id == subject.id)
         .order_by(ClassSession.date, ClassSession.start_time)
     )
-    classes = [
-        StudentClassOut(
-            id=c.id,
-            date=c.date,
-            start_time=c.start_time,
-            window_state=window_state(c.date),
-            closes_on=closes_on(c.date),
-            has_feedback=done,
-        )
-        for c, done in rows
-    ]
+    classes = [to_class_out(c, done) for c, done in rows]
     return StudentSubjectClassesOut(subject=to_subject_out(subject), classes=classes)
+
+
+@router.get("/classes/{class_id}", response_model=StudentClassDetailOut)
+def class_detail(class_id: int, student: StudentUser, db: DbSession) -> StudentClassDetailOut:
+    class_session = get_enrolled_class(db, student, class_id)
+    return StudentClassDetailOut(
+        subject=to_subject_out(class_session.subject),
+        class_session=to_class_out(
+            class_session, find_own_feedback(db, student, class_id) is not None
+        ),
+    )
 
 
 @router.get("/classes/{class_id}/feedback", response_model=StudentFeedbackOut)

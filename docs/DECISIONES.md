@@ -157,3 +157,16 @@ Todas con **Origen: Asistente (autorizado por D-030)**.
 | D-049 | Dominio de los emails del seed | `.test` · `example.com` | **`example.com`** | Reservado para ejemplos (RFC 2606); el validador de emails rechaza `.test`. | Parámetro normal |
 | D-050 | Gestión de roles por el admin | — | **Un admin no puede quitarse su propio rol de admin; quitar el rol docente desasigna de las materias** | Evita quedarse sin admins y docentes "fantasma" en las materias. | Asistente (D-030) |
 | D-051 | Usuario de prueba con varios roles | — | **Laura Martínez es docente y admin** | Permite probar el selector de rol (D-028). | Parámetro normal |
+
+---
+
+# Fase 5 — Frontend mobile-first (2026-10-20)
+
+| ID | Pregunta | Opciones consideradas | Elegida | Motivo | Origen |
+|----|----------|-----------------------|---------|--------|--------|
+| D-052 | Estilo visual | Genérico de librería · Identidad propia | **"Aula": tinta azul `#1B2541`, verde pizarrón `#16805A`, amarillo resaltador para lo que espera acción del alumno, rojo corrección para errores; las caritas como elemento distintivo** | Ligado al tema (clases), alto contraste y legible en el celular. Color de la línea del gráfico validado con el validador de paletas (claro y oscuro). | Asistente (D-030) |
+| D-053 | Cómo carga el formulario una clase suelta | Recorrer todas las materias · Endpoint nuevo | **Nuevo `GET /api/student/classes/{id}`** (con pruebas) | Una request en lugar de N; reutiliza la autorización por inscripción. | Asistente (D-030) |
+| D-054 | Tipografía | Google Fonts por CDN · Fuente autoalojada | **Atkinson Hyperlegible Next autoalojada (`@fontsource-variable`)** | Diseñada para legibilidad; sin depender de servicios externos en el cluster. | Asistente (D-030) |
+| D-055 | Modo oscuro | No · Automático según el sistema | **Automático (`prefers-color-scheme`)** con tokens propios | Mismo esfuerzo con variables CSS; colores del gráfico validados contra el fondo oscuro. | Asistente (D-030) |
+| D-056 | Peso del bundle | Todo junto · Carga diferida del gráfico | **La pantalla con Recharts se carga diferida** | El bundle inicial baja de ~650 kB a ~300 kB; alumnos y admins no descargan la librería de gráficos. | Parámetro normal |
+| D-057 | Clases sin respuestas en el gráfico | Puntos en 0 · Unir con línea · Omitir | **Se omiten del gráfico y figuran en la tabla con "–"** | Una clase sin datos no es un promedio de cero. | Asistente (D-030) |

@@ -71,6 +71,11 @@ class StudentClassOut(BaseModel):
     has_feedback: bool
 
 
+class StudentClassDetailOut(BaseModel):
+    subject: StudentSubjectOut
+    class_session: StudentClassOut
+
+
 class StudentSubjectClassesOut(BaseModel):
     subject: StudentSubjectOut
     classes: list[StudentClassOut]
