@@ -1,6 +1,6 @@
 # Progreso del proyecto: Feedback de clases
 
-**Fase actual:** 1, Definición funcional (terminada, esperando checkpoint)
+**Fase actual:** 3, Esqueleto y entorno local (en curso)
 **Última actualización:** 2026-10-20
 
 ## Estado por fase
@@ -8,9 +8,9 @@
 | Fase | Descripción | Estado |
 |------|-------------|--------|
 | 0 | Arranque | ✅ Hecha |
-| 1 | Definición funcional (sin código) | ✅ Hecha (falta el checkpoint) |
-| 2 | Arquitectura (antes de programar) | ⏳ Pendiente |
-| 3 | Esqueleto y entorno local | ⏳ Pendiente |
+| 1 | Definición funcional (sin código) | ✅ Hecha |
+| 2 | Arquitectura (antes de programar) | ✅ Hecha |
+| 3 | Esqueleto y entorno local | 🔄 En curso |
 | 4 | Backend y base de datos | ⏳ Pendiente |
 | 5 | Frontend mobile-first | ⏳ Pendiente |
 | 6 | Extras (opcional) | ⏳ Pendiente |
@@ -23,11 +23,13 @@
 - Repositorio Git local inicializado (rama `main`) con `.gitignore`.
 - Creados `docs/DECISIONES.md` y `docs/PROGRESO.md`.
 - Fase 1: definición funcional por encuestas (D-006 a D-029) y `docs/REQUISITOS.md` con glosario, reglas R1–R11, historias de usuario por rol y casos borde.
+- Checkpoint de la Fase 1: el equipo autorizó continuar todas las fases sin encuestas (D-030).
+- Fase 2: stack y autenticación (D-031 a D-042) y `docs/ARQUITECTURA.md` (versión inicial, antes de programar), commiteado antes de escribir código.
 
 ## Falta
 
-- Fase 2: stack, autenticación y creación de cuentas (incluye cómo se crean admins y docentes, y la asignación de roles), idioma del código y `docs/ARQUITECTURA.md`.
-- Todo lo de las fases 3 a 7.
+- Fase 3: esqueleto del repo, base de datos local, `.env.example`, health check, página mínima y README.
+- Fases 4 a 7.
 
 ## Preguntas pendientes
 

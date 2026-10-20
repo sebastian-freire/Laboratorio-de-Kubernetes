@@ -105,3 +105,32 @@ Todas con **Origen: Equipo (encuesta)**.
 - **Opciones:** `America/Argentina/Buenos_Aires` · `America/Montevideo`
 - **Elegida:** **`America/Montevideo`**, configurable por variable de entorno.
 - **Motivo:** Elección del equipo.
+
+---
+
+## D-030 — Autorización para continuar sin encuestas
+
+- **Fecha:** 2026-10-20 · **Fase:** checkpoint de la Fase 1 · **Origen:** Equipo
+- **Decisión:** el equipo indicó: *"Seguí con todas las fases en base a los requisitos que tenés, podés continuar sin preguntar más, hacé todo"*. Desde aquí el asistente toma las decisiones pendientes eligiendo la opción que habría marcado como **(Recomendado)** y las registra con **Origen: Asistente (autorizado por D-030)**. Incluye los extras de la Fase 6.
+- **Flujo de ramas sin remoto** (opciones: mergear en local · dejar ramas abiertas · configurar remoto): **una rama por fase, mergeada a `main` en local al cerrarla.** Los PR empiezan cuando exista el remoto.
+
+---
+
+# Fase 2 — Arquitectura (2026-10-20)
+
+Todas con **Origen: Asistente (autorizado por D-030)**.
+
+| ID | Pregunta | Opciones consideradas | Elegida | Motivo |
+|----|----------|-----------------------|---------|--------|
+| D-031 | Frontend | React + Vite · Vue + Vite · Svelte · SSR simple | **React + Vite + TypeScript** | El más documentado; TypeScript atrapa errores antes de correr. |
+| D-032 | Backend | Node/Express · NestJS · Python/FastAPI · Spring Boot · Go | **Python + FastAPI** | Swagger/OpenAPI automático, validación con Pydantic y pruebas simples con pytest. |
+| D-033 | Base de datos | PostgreSQL · MySQL/MariaDB · MongoDB | **PostgreSQL 18** | Relacional (el dominio lo es), restricciones únicas y CHECK, imagen oficial estable. |
+| D-034 | ORM y migraciones | SQLAlchemy + Alembic · SQL a mano · SQLModel | **SQLAlchemy 2 (síncrono) + Alembic** | Estándar en Python; migraciones versionadas con un comando. Síncrono es más fácil de depurar. |
+| D-035 | UI / CSS mobile-first | Tailwind CSS · Pico CSS · MUI · CSS propio | **Tailwind CSS 4** | Utilidades mobile-first sin escribir CSS aparte; sin componentes pesados. |
+| D-036 | Gráficos | Recharts · Chart.js · tabla sin librería | **Recharts** | Componentes React nativos para el gráfico de línea (D-021). |
+| D-037 | Autenticación | Email + contraseña + JWT · Sesiones con cookie · Proveedor externo | **Email + contraseña, JWT Bearer (8 h)** | Sin estado en el servidor (simple para escalar en Kubernetes) y el botón *Authorize* de Swagger funciona. |
+| D-038 | Creación de cuentas | Seed · Registro abierto · Invitación | **Alumnos: registro abierto (rol alumno). Docentes y admins: los crea un admin desde la app. Primer admin: seed.** | Encaja con la autoinscripción (D-008) y con el rol admin (D-006). |
+| D-039 | Hash de contraseñas | Argon2 · bcrypt | **Argon2 (pwdlib)** | Lo que recomienda la documentación actual de FastAPI. |
+| D-040 | Idioma | Código en inglés · Código en español | **Interfaz en español; código, API y base en inglés** | Convención de los frameworks y de las librerías; el glosario de ARQUITECTURA.md mapea los términos. |
+| D-041 | Gestor de paquetes Python | uv · pip + requirements.txt · Poetry | **uv** (ya instalado) | Instalación rápida y lockfile reproducible; `uv run pytest` es el comando único de pruebas. |
+| D-042 | Dónde vive el token en el frontend | localStorage · cookie httpOnly | **localStorage** | Lo más simple con JWT Bearer; el riesgo de XSS se mitiga porque React escapa el contenido y no se usa `dangerouslySetInnerHTML`. |
