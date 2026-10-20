@@ -1,6 +1,6 @@
 # Progreso del proyecto: Feedback de clases
 
-**Fase actual:** 6, Extras (en curso)
+**Fase actual:** 7, Cierre de la etapa (en curso)
 **Última actualización:** 2026-10-20
 
 ## Estado por fase
@@ -13,8 +13,8 @@
 | 3 | Esqueleto y entorno local | ✅ Hecha |
 | 4 | Backend y base de datos | ✅ Hecha |
 | 5 | Frontend mobile-first | ✅ Hecha |
-| 6 | Extras (opcional) | 🔄 En curso |
-| 7 | Cierre de la etapa | ⏳ Pendiente |
+| 6 | Extras (opcional) | ✅ Hecha |
+| 7 | Cierre de la etapa | 🔄 En curso |
 
 ## Hecho
 
@@ -28,11 +28,11 @@
 - Fase 3: `docker-compose.yml` (solo PostgreSQL, con base de pruebas), `.env.example`, backend FastAPI con `GET /api/health` y su prueba, Alembic configurado, frontend React + Vite + Tailwind con una página que consume el health check, y `README.md`.
 - Fase 4: modelo y migración inicial (Alembic), seed reproducible, autenticación JWT con roles múltiples, 18 endpoints (alumno, docente, admin) documentados en `/docs`, reglas de negocio en el backend y 73 pruebas automáticas (`uv run pytest`). Las pruebas detectaron y se corrigió un bug en el promedio por materia.
 - Fase 5: frontend React con login y registro, selector de rol, pantallas de alumno (materias, inscripción por código, clases por fecha con estado, formulario con caritas), docente (promedio, gráfico de tendencia, tabla, comentarios anónimos) y admin (materias, docentes, generador de calendario, eliminar clases, usuarios y roles). Probado a 360, 375 y 414 px en modo claro y oscuro, sin scroll horizontal ni errores de consola.
+- Fase 6: exportar a planilla CSV, palabras más repetidas y comparación entre materias, con 7 pruebas nuevas (82 en total) y verificación en el navegador.
 
 ## Falta
 
-- Fase 6: extras (exportar a planilla, palabras más repetidas, comparación entre materias).
-- Fase 7: cierre.
+- Fase 7: verificación desde cero, checklist de requisitos y pendientes para el despliegue.
 
 ## Preguntas pendientes
 

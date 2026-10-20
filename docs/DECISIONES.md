@@ -170,3 +170,17 @@ Todas con **Origen: Asistente (autorizado por D-030)**.
 | D-055 | Modo oscuro | No · Automático según el sistema | **Automático (`prefers-color-scheme`)** con tokens propios | Mismo esfuerzo con variables CSS; colores del gráfico validados contra el fondo oscuro. | Asistente (D-030) |
 | D-056 | Peso del bundle | Todo junto · Carga diferida del gráfico | **La pantalla con Recharts se carga diferida** | El bundle inicial baja de ~650 kB a ~300 kB; alumnos y admins no descargan la librería de gráficos. | Parámetro normal |
 | D-057 | Clases sin respuestas en el gráfico | Puntos en 0 · Unir con línea · Omitir | **Se omiten del gráfico y figuran en la tabla con "–"** | Una clase sin datos no es un promedio de cero. | Asistente (D-030) |
+
+---
+
+# Fase 6 — Extras (2026-10-20)
+
+Los tres extras se hicieron por la autorización D-030 ("hacé todo").
+
+| ID | Pregunta | Opciones consideradas | Elegida | Motivo | Origen |
+|----|----------|-----------------------|---------|--------|--------|
+| D-058 | Orden de los extras | — | **1) Planilla, 2) palabras, 3) comparación** | De menor a mayor esfuerzo. | Asistente (D-030) |
+| D-059 | Formato de la planilla | CSV · XLSX | **CSV con `;` y BOM UTF-8**, celdas con fórmulas neutralizadas | Sin dependencias nuevas; Excel en español lo abre bien con `;`. | Asistente (D-030) |
+| D-060 | Palabras repetidas | Nube de palabras · Ranking | **Ranking con barras (top 8 por columna)**, lista propia de palabras vacías, sin tildes para contar y mostrando la grafía más usada | Más legible en el celular que una nube; sin librerías nuevas. | Asistente (D-030) |
+| D-061 | Comparación entre materias | Solo promedio · Promedio + participación | **Promedio y participación de las materias propias**, con tabla de detalle | La participación da contexto al promedio; respeta R5 (nunca materias ajenas). | Asistente (D-030) |
+| D-062 | Nombre del archivo descargado | — | **Se expone `Content-Disposition` por CORS** | Si no, el navegador no deja leer el nombre `feedback-<código>.csv`. | Parámetro normal |

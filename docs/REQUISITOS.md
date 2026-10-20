@@ -112,7 +112,13 @@ Las decisiones que sustentan cada regla están en [`DECISIONES.md`](DECISIONES.m
 | Admin le quita el rol docente a alguien | Se lo desasigna de sus materias y pierde el acceso de docente. |
 | Materia con varios docentes | Todos ven los mismos datos agregados. |
 
-## 5. Fuera del MVP
+## 5. Extras (Fase 6, confirmados por D-030)
 
-- Extras (Fase 6, solo si el equipo los confirma): comparación entre materias, exportar a planilla, palabras más repetidas.
+**HU-D4. Exportar a planilla.** El docente descarga un CSV de una de sus materias con fecha, hora, calificación y comentarios de cada feedback, sin autor ni fechas de envío, en orden aleatorio dentro de cada clase. Una materia ajena da 404. Las celdas que empiezan con `=`, `+`, `-` o `@` se neutralizan con `'` para evitar fórmulas.
+
+**HU-D5. Palabras más repetidas.** El docente ve las palabras más frecuentes en "qué gustó" y en "qué no gustó" de una materia, sin palabras vacías del español y sin distinguir mayúsculas ni tildes.
+
+**HU-D6. Comparar materias.** Un docente con dos o más materias compara el promedio y la participación (respuestas / (inscriptos × clases dictadas)) solo de sus propias materias.
+
+## 6. Fuera del MVP
 - Agregar clases sueltas, desinscripción, borrado de feedback, umbral de anonimato: descartados por ahora (ver decisiones).

@@ -72,3 +72,24 @@ export async function api<T>(path: string, options: { method?: string; body?: un
   }
   return body as T
 }
+
+/** Descarga un archivo autenticado (el navegador no manda el token en un <a href> común). */
+export async function apiDownload(path: string, fallbackName: string): Promise<void> {
+  const token = tokenStore.get()
+  const response = await fetch(`${API_URL}/api${path}`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  }).catch(() => {
+    throw new ApiError(0, 'No hay conexión con el servidor. Revisá tu conexión e intentá de nuevo.')
+  })
+  if (!response.ok) {
+    if (response.status === 401 && token) onUnauthorized()
+    throw new ApiError(response.status, messageFrom(response.status, await response.json().catch(() => null)))
+  }
+  const name = /filename="([^"]+)"/.exec(response.headers.get('Content-Disposition') ?? '')?.[1] ?? fallbackName
+  const url = URL.createObjectURL(await response.blob())
+  const link = document.createElement('a')
+  link.href = url
+  link.download = name
+  link.click()
+  URL.revokeObjectURL(url)
+}
