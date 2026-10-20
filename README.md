@@ -53,6 +53,24 @@ npm run dev
 
 > En PowerShell, `cp` funciona igual (es un alias de `Copy-Item`).
 
+## Usuarios de prueba (seed)
+
+Todos usan la contraseña definida en `SEED_USER_PASSWORD` (por defecto `demo1234`). Son datos ficticios con el dominio reservado `example.com`.
+
+| Email | Roles | Para probar |
+|-------|-------|-------------|
+| `admin@example.com` | Admin | Materias, generación de clases, docentes y usuarios |
+| `laura.martinez@example.com` | Docente + Admin | Selector de rol; docente de Bases de Datos |
+| `sofia.rodriguez@example.com` | Docente | Segunda docente de Bases de Datos (misma vista que Laura) |
+| `diego.fernandez@example.com` | Docente | Programación Web y Redes; comparación entre materias |
+| `lucia.gomez@example.com` | Alumna | Inscripta en las 3 materias, con clases abiertas sin responder |
+| `mateo.silva@example.com`, `valentina.perez@example.com`, `santiago.lopez@example.com`, `camila.sosa@example.com`, `joaquin.diaz@example.com`, `martina.castro@example.com`, `bruno.vazquez@example.com`, `agustina.romero@example.com` | Alumnos | Inscriptos en distintas materias |
+| `tomas.alvarez@example.com` | Alumno | Sin materias: probar la inscripción con un código |
+
+Códigos de inscripción: Bases de Datos `BASES226`, Programación Web `WEBDEV26`, Redes de Computadoras `REDES226`.
+
+Las fechas del seed son relativas al día en que se corre (10 semanas antes y 5 después), así siempre hay clases cerradas, abiertas y futuras. Volver a correrlo **borra todos los datos** y los recarga.
+
 ## Pruebas
 
 Con la base levantada (`docker compose up -d --wait`):
@@ -62,7 +80,7 @@ cd backend
 uv run pytest
 ```
 
-Las pruebas usan la base `TEST_DATABASE_URL`, que **se borra en cada corrida**, nunca la de desarrollo.
+Las pruebas usan la base `TEST_DATABASE_URL`, que **se borra en cada corrida**, nunca la de desarrollo. Cubren autenticación, reglas de negocio (duplicados, plazos, autorización por materia, anonimato, promedios), administración, extras y el seed (82 pruebas).
 
 ## Comandos útiles
 
@@ -79,6 +97,16 @@ Las pruebas usan la base `TEST_DATABASE_URL`, que **se borra en cada corrida**, 
 | Lint del frontend | `npm run lint` |
 
 Para apagar la base: `docker compose down`. Para borrarla por completo (incluye los datos): `docker compose down -v`.
+
+## Problemas comunes
+
+| Síntoma | Causa y solución |
+|---------|------------------|
+| `failed to connect to the docker API` | Docker Desktop no está abierto. Abrilo y esperá a que diga *Engine running*. |
+| El frontend dice "No hay conexión con el servidor" | El backend no está corriendo, o `VITE_API_URL` no coincide con su puerto. Si cambiás el `.env`, reiniciá `npm run dev`. |
+| Un cambio en el backend no aparece | En carpetas sincronizadas (OneDrive), `--reload` a veces no detecta cambios: reiniciá `uvicorn`. |
+| CORS bloquea las requests | Agregá el origen del frontend a `CORS_ORIGINS` en el `.env` y reiniciá el backend. |
+| Las pruebas fallan con "Falta TEST_DATABASE_URL" | Falta esa variable en el `.env` (copiala de `.env.example`). |
 
 ## Variables de entorno
 

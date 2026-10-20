@@ -184,3 +184,11 @@ Los tres extras se hicieron por la autorización D-030 ("hacé todo").
 | D-060 | Palabras repetidas | Nube de palabras · Ranking | **Ranking con barras (top 8 por columna)**, lista propia de palabras vacías, sin tildes para contar y mostrando la grafía más usada | Más legible en el celular que una nube; sin librerías nuevas. | Asistente (D-030) |
 | D-061 | Comparación entre materias | Solo promedio · Promedio + participación | **Promedio y participación de las materias propias**, con tabla de detalle | La participación da contexto al promedio; respeta R5 (nunca materias ajenas). | Asistente (D-030) |
 | D-062 | Nombre del archivo descargado | — | **Se expone `Content-Disposition` por CORS** | Si no, el navegador no deja leer el nombre `feedback-<código>.csv`. | Parámetro normal |
+
+---
+
+# Fase 7 — Cierre (2026-10-20)
+
+| ID | Pregunta | Elegida | Motivo | Origen |
+|----|----------|---------|--------|--------|
+| D-063 | ¿Cómo se verifica "corre desde cero"? | **Clon limpio fuera de OneDrive, siguiendo solo el README**, con un proyecto de Compose aparte y desarmado al terminar | Prueba real del README sin tocar la base de desarrollo. | Parámetro normal |
