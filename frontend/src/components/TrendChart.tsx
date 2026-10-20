@@ -10,10 +10,10 @@ function ChartTooltip({ active, payload }: { active?: boolean; payload?: { paylo
   if (!active || !payload?.length) return null
   const point = payload[0].payload
   return (
-    <div className="flex items-center gap-2.5 rounded-xl border border-line bg-surface px-3 py-2 shadow-lg">
-      <Face rating={point.average} size={28} />
+    <div className="flex items-center gap-2.5 rounded-lg border border-line bg-surface px-3 py-2 shadow-md">
+      <Face rating={point.average} size={24} />
       <div className="text-sm leading-snug">
-        <p className="font-semibold">
+        <p className="font-medium">
           {point.label}, {point.time} h
         </p>
         <p>
@@ -35,7 +35,7 @@ export function TrendChart({ classes }: { classes: ClassSummary[] }) {
     .map((c) => ({ label: dateShort(c.date), average: c.average as number, responses: c.response_count, time: timeShort(c.start_time) }))
 
   if (data.length < 2) {
-    return <p className="py-6 text-center text-muted">Hacen falta al menos dos clases con respuestas para ver la tendencia.</p>
+    return <p className="py-6 text-center text-sm text-muted">Hacen falta al menos dos clases con respuestas para ver la tendencia.</p>
   }
 
   return (
@@ -63,12 +63,12 @@ export function TrendChart({ classes }: { classes: ClassSummary[] }) {
           <Line
             type="linear"
             dataKey="average"
-            stroke="var(--chalk)"
+            stroke="var(--brand)"
             strokeWidth={2}
             strokeLinejoin="round"
             strokeLinecap="round"
-            dot={{ r: 4, fill: 'var(--chalk)', stroke: 'var(--surface)', strokeWidth: 2 }}
-            activeDot={{ r: 6, fill: 'var(--chalk)', stroke: 'var(--surface)', strokeWidth: 2 }}
+            dot={{ r: 4, fill: 'var(--brand)', stroke: 'var(--surface)', strokeWidth: 2 }}
+            activeDot={{ r: 6, fill: 'var(--brand)', stroke: 'var(--surface)', strokeWidth: 2 }}
             isAnimationActive={false}
           />
         </LineChart>

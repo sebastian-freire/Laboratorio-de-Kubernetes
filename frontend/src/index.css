@@ -1,26 +1,28 @@
-@import '@fontsource-variable/atkinson-hyperlegible-next';
+@import '@fontsource-variable/inter';
 @import 'tailwindcss';
 
 /*
- * Tokens de diseño "aula": tinta azul, verde pizarrón, amarillo resaltador, rojo corrección.
+ * Tokens de diseño: estilo sobrio institucional (D-064).
+ * Fondo blanco, un solo color de marca (azul), grises neutros y líneas finas.
  * Las utilidades de Tailwind (bg-surface, text-ink, etc.) leen estas variables,
  * así el modo oscuro solo redefine los valores.
  */
 @theme {
-  --font-sans: 'Atkinson Hyperlegible Next Variable', system-ui, sans-serif;
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
 
-  --color-paper: var(--paper);
+  --color-canvas: var(--canvas);
   --color-surface: var(--surface);
+  --color-subtle: var(--subtle);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-line: var(--line);
-  --color-chalk: var(--chalk);
-  --color-chalk-soft: var(--chalk-soft);
-  --color-on-chalk: var(--on-chalk);
-  --color-marker: var(--marker);
-  --color-on-marker: var(--on-marker);
-  --color-correction: var(--correction);
-  --color-correction-soft: var(--correction-soft);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-on-brand: var(--on-brand);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
   --color-face-1: var(--face-1);
   --color-face-2: var(--face-2);
   --color-face-3: var(--face-3);
@@ -30,18 +32,19 @@
 
 :root {
   color-scheme: light;
-  --paper: #f3f5f9;
+  --canvas: #ffffff;
   --surface: #ffffff;
-  --ink: #1b2541;
-  --muted: #56617f;
-  --line: #dce2ec;
-  --chalk: #16805a; /* validado para la línea del gráfico (dataviz) */
-  --chalk-soft: #e3f2ea;
-  --on-chalk: #ffffff;
-  --marker: #f6d04d;
-  --on-marker: #1b2541;
-  --correction: #b3372f;
-  --correction-soft: #fbe9e7;
+  --subtle: #f8fafc;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --brand: #1d4ed8; /* validado para la línea del gráfico (dataviz) */
+  --brand-soft: #eff6ff;
+  --on-brand: #ffffff;
+  --success: #15803d;
+  --success-soft: #f0fdf4;
+  --danger: #b91c1c;
+  --danger-soft: #fef2f2;
   --face-1: #c2413b;
   --face-2: #de7e52;
   --face-3: #8a93a8;
@@ -52,18 +55,19 @@
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --paper: #0f1626;
-    --surface: #182136;
-    --ink: #e8ecf5;
-    --muted: #a3adc6;
-    --line: #2b3652;
-    --chalk: #2fa374; /* validado contra --surface oscuro */
-    --chalk-soft: #17362d;
-    --on-chalk: #0f1626;
-    --marker: #e9c23f;
-    --on-marker: #1b2541;
-    --correction: #f07a70;
-    --correction-soft: #3a1f24;
+    --canvas: #0b1120;
+    --surface: #0f172a;
+    --subtle: #111c33;
+    --ink: #e2e8f0;
+    --muted: #94a3b8;
+    --line: #1e293b;
+    --brand: #3b82f6; /* validado contra --surface oscuro */
+    --brand-soft: #172554;
+    --on-brand: #0b1120;
+    --success: #4ade80;
+    --success-soft: #052e16;
+    --danger: #f87171;
+    --danger-soft: #3b1219;
     --face-1: #e8675f;
     --face-2: #e99a6f;
     --face-3: #8d97ad;
@@ -72,16 +76,19 @@
   }
 }
 
-body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-sans);
-  -webkit-tap-highlight-color: transparent;
-}
+/* En @layer base para que las utilidades (por ejemplo outline-none) puedan pisarlas. */
+@layer base {
+  body {
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-tap-highlight-color: transparent;
+  }
 
-:focus-visible {
-  outline: 3px solid var(--chalk);
-  outline-offset: 2px;
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

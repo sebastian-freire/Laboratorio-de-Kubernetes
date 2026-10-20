@@ -37,7 +37,7 @@ type PickerProps = { value: number | null; onChange: (rating: number) => void; d
 export function RatingPicker({ value, onChange, disabled = false }: PickerProps) {
   return (
     <fieldset disabled={disabled} className="disabled:opacity-60">
-      <legend className="mb-3 text-base font-semibold">¿Cómo estuvo la clase?</legend>
+      <legend className="mb-2 text-sm font-medium">¿Cómo estuvo la clase?</legend>
       <div className="grid grid-cols-5 gap-1.5">
         {RATING_LABELS.map((label, i) => {
           const rating = i + 1
@@ -45,8 +45,8 @@ export function RatingPicker({ value, onChange, disabled = false }: PickerProps)
           return (
             <label
               key={rating}
-              className={`flex cursor-pointer flex-col items-center gap-1.5 rounded-2xl border-2 px-1 py-2.5 transition-colors has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-chalk ${
-                selected ? 'border-ink bg-surface' : 'border-transparent'
+              className={`flex cursor-pointer flex-col items-center gap-1.5 rounded-lg border px-1 py-2.5 transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-brand ${
+                selected ? 'border-brand bg-brand-soft' : 'border-line hover:bg-subtle'
               }`}
             >
               <input
@@ -59,10 +59,10 @@ export function RatingPicker({ value, onChange, disabled = false }: PickerProps)
               />
               <Face
                 rating={rating}
-                size={selected ? 52 : 44}
-                className={`transition-all ${value !== null && !selected ? 'opacity-45 grayscale-[40%]' : ''}`}
+                size={40}
+                className={`transition-opacity ${value !== null && !selected ? 'opacity-40' : ''}`}
               />
-              <span className={`text-center text-xs leading-tight ${selected ? 'font-bold' : 'text-muted'}`}>
+              <span className={`text-center text-xs leading-tight ${selected ? 'font-medium text-ink' : 'text-muted'}`}>
                 {label}
               </span>
             </label>

@@ -164,7 +164,7 @@ Todas con **Origen: Asistente (autorizado por D-030)**.
 
 | ID | Pregunta | Opciones consideradas | Elegida | Motivo | Origen |
 |----|----------|-----------------------|---------|--------|--------|
-| D-052 | Estilo visual | Genérico de librería · Identidad propia | **"Aula": tinta azul `#1B2541`, verde pizarrón `#16805A`, amarillo resaltador para lo que espera acción del alumno, rojo corrección para errores; las caritas como elemento distintivo** | Ligado al tema (clases), alto contraste y legible en el celular. Color de la línea del gráfico validado con el validador de paletas (claro y oscuro). | Asistente (D-030) |
+| D-052 | Estilo visual (**reemplazada por D-064**) | Genérico de librería · Identidad propia | **"Aula": tinta azul `#1B2541`, verde pizarrón `#16805A`, amarillo resaltador para lo que espera acción del alumno, rojo corrección para errores; las caritas como elemento distintivo** | Ligado al tema (clases), alto contraste y legible en el celular. Color de la línea del gráfico validado con el validador de paletas (claro y oscuro). | Asistente (D-030) |
 | D-053 | Cómo carga el formulario una clase suelta | Recorrer todas las materias · Endpoint nuevo | **Nuevo `GET /api/student/classes/{id}`** (con pruebas) | Una request en lugar de N; reutiliza la autorización por inscripción. | Asistente (D-030) |
 | D-054 | Tipografía | Google Fonts por CDN · Fuente autoalojada | **Atkinson Hyperlegible Next autoalojada (`@fontsource-variable`)** | Diseñada para legibilidad; sin depender de servicios externos en el cluster. | Asistente (D-030) |
 | D-055 | Modo oscuro | No · Automático según el sistema | **Automático (`prefers-color-scheme`)** con tokens propios | Mismo esfuerzo con variables CSS; colores del gráfico validados contra el fondo oscuro. | Asistente (D-030) |
@@ -192,3 +192,21 @@ Los tres extras se hicieron por la autorización D-030 ("hacé todo").
 | ID | Pregunta | Elegida | Motivo | Origen |
 |----|----------|---------|--------|--------|
 | D-063 | ¿Cómo se verifica "corre desde cero"? | **Clon limpio fuera de OneDrive, siguiendo solo el README**, con un proyecto de Compose aparte y desarmado al terminar | Prueba real del README sin tocar la base de desarrollo. | Parámetro normal |
+
+---
+
+# Ajuste posterior al cierre (2026-10-20)
+
+## D-064 — Estilo visual sobrio institucional (reemplaza a D-052)
+
+- **Fecha:** 2026-10-20 · **Origen:** Equipo (encuesta)
+- **Contexto:** el equipo consideró que el estilo "aula" (D-052), elegido por el asistente sin encuesta, no se veía profesional. Lo que más molestaba: colores y tipografía, y tarjetas y espaciado (las caritas no).
+- **Opciones:** sobrio institucional · tipo app moderna (SaaS) · librería de componentes (shadcn/ui, Material) · no cambiar todavía
+- **Elegida:** **sobrio institucional**:
+  - fondo blanco, un solo color de marca azul (`#1D4ED8`; `#3B82F6` en oscuro, ambos validados para el gráfico) y grises neutros;
+  - tipografía Inter autoalojada, títulos de 24 px semibold, sin cero tachado;
+  - listas con divisores finos en lugar de tarjetas, esquinas de 8 px y menos aire vertical;
+  - encabezado con el nombre de la app en texto (sin ícono) y pestañas subrayadas para el rol;
+  - las clases futuras se resumen en una línea en lugar de listarse;
+  - **se mantienen** las caritas, todas las pantallas y la lógica.
+- **Motivo:** aspecto serio y consistente con poco esfuerzo, sin dependencias nuevas.

@@ -2,20 +2,15 @@ import { useState, type FormEvent, type ReactNode } from 'react'
 import { Link } from 'react-router'
 import { ApiError } from '../api/client'
 import { useAuth } from '../auth/useAuth'
-import { Face } from '../components/Face'
 import { Alert, Button, TextField } from '../components/ui'
 
 function AuthFrame({ title, children }: { title: string; children: ReactNode }) {
   return (
     <main className="mx-auto flex min-h-dvh max-w-sm flex-col justify-center px-4 py-10">
       <div className="mb-8">
-        <div className="mb-5 flex gap-1.5" aria-hidden>
-          {[1, 2, 3, 4, 5].map((r) => (
-            <Face key={r} rating={r} size={34} />
-          ))}
-        </div>
-        <h1 className="text-[2rem] leading-tight font-bold tracking-tight">{title}</h1>
-        <p className="mt-2 text-muted">Contá qué te pareció cada clase. Tu docente lo lee sin tu nombre.</p>
+        <p className="mb-6 text-sm font-semibold tracking-tight text-brand">Feedback de clases</p>
+        <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+        <p className="mt-1.5 text-sm text-muted">Contá qué te pareció cada clase. Tu docente lo lee sin tu nombre.</p>
       </div>
       {children}
     </main>
@@ -46,7 +41,7 @@ export function LoginPage() {
   const { error, sending, onSubmit } = useSubmit(() => login(email, password))
 
   return (
-    <AuthFrame title="Feedback de clases">
+    <AuthFrame title="Iniciar sesión">
       <form onSubmit={onSubmit} className="flex flex-col gap-4">
         {sessionExpired && !error && <Alert kind="info">Tu sesión venció. Iniciá sesión de nuevo.</Alert>}
         {error && <Alert>{error}</Alert>}
@@ -74,7 +69,7 @@ export function LoginPage() {
       </form>
       <p className="mt-6 text-center text-muted">
         ¿Sos alumno y no tenés cuenta?{' '}
-        <Link to="/registro" className="font-semibold text-chalk hover:underline">
+        <Link to="/registro" className="font-semibold text-brand hover:underline">
           Creá una
         </Link>
       </p>
@@ -130,7 +125,7 @@ export function RegisterPage() {
       </form>
       <p className="mt-6 text-center text-muted">
         ¿Ya tenés cuenta?{' '}
-        <Link to="/login" className="font-semibold text-chalk hover:underline">
+        <Link to="/login" className="font-semibold text-brand hover:underline">
           Ingresá
         </Link>
       </p>

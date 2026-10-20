@@ -13,7 +13,7 @@ export function BarList({ bars, max, label }: { bars: Bar[]; max: number; label:
           </span>
           <span className="h-3.5">
             <span
-              className="block h-full rounded-r-[4px] bg-chalk"
+              className="block h-full rounded-r-[4px] bg-brand"
               style={{ width: `${Math.max(2, (bar.value / max) * 100)}%` }}
             />
           </span>
