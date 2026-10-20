@@ -86,13 +86,13 @@ Las decisiones que sustentan cada regla están en [`DECISIONES.md`](DECISIONES.m
 |------|--------------------|
 | Segundo feedback del mismo alumno en la misma clase | Rechazado (409 Conflict). Hay una única fila en la base. |
 | Dos envíos simultáneos del mismo alumno y clase | Se guarda uno solo; la restricción única de la base rechaza el otro (409). |
-| Crear feedback en una clase futura | Rechazado (422/403: "La clase todavía no ocurrió"). |
-| Crear o editar feedback después del 7.º día | Rechazado ("El plazo venció"). |
+| Crear feedback en una clase futura | Rechazado (403: "La clase todavía no ocurrió"). |
+| Crear o editar feedback después del 7.º día | Rechazado (403: "El plazo … venció el DD/MM/AAAA"). |
 | Límite exacto: día 7 a las 23:59:59 / día 8 a las 00:00 | Aceptado / rechazado. |
 | Alumno no inscripto que opina sobre una clase | Rechazado (403/404). |
 | Alumno inscripto tarde | Puede opinar sobre clases pasadas cuya ventana sigue abierta. |
-| Calificación 0, 6, decimal o texto | Rechazado (400). |
-| Texto de 501 caracteres | Rechazado (400). |
+| Calificación 0, 6, decimal, texto o ausente | Rechazado (422, validación). |
+| Texto de 501 caracteres | Rechazado (422, validación). |
 | Docente pide una materia o clase en la que no está asignado | 403/404, sin filtrar ningún dato. |
 | Docente manipula ids en la URL o en el cuerpo | Se ignora; se filtra siempre por el usuario autenticado. |
 | Respuesta al docente con comentarios | No incluye id, nombre ni email del alumno, ni fechas de creación o edición. |
@@ -101,13 +101,15 @@ Las decisiones que sustentan cada regla están en [`DECISIONES.md`](DECISIONES.m
 | Request sin sesión o con sesión expirada | 401; el frontend redirige al login. |
 | Código de inscripción inválido / ya inscripto | 404 "Código inválido" / 409 "Ya inscripto". |
 | Eliminar una clase con feedback | Rechazado (409). |
-| Generación de calendario con fin anterior al inicio o sin reglas | Rechazado (400). |
+| Generación de calendario con fin anterior al inicio, sin reglas o de más de 400 días | Rechazado (422). |
 | Generación que se superpone con clases existentes | Solo se crean las combinaciones fecha + hora nuevas. |
 | Dos clases el mismo día (08:00 y 18:00) | Son clases distintas: el alumno puede dejar un feedback en cada una y ambas comparten la misma ventana de 7 días. |
 | Docente de la materia intenta inscribirse con el código | Rechazado (409 "Sos docente de esta materia"). |
 | Admin asigna como docente a un alumno inscripto en esa materia | Rechazado (409). |
 | Usuario admin + docente | Los endpoints de admin nunca devuelven feedback; por los endpoints de docente ve solo sus materias. El backend autoriza según los roles del usuario autenticado; el "rol activo" es solo una vista del frontend. |
 | Usuario pide un endpoint de un rol que no tiene | 403. |
+| Admin intenta quitarse su propio rol de administrador | Rechazado (409), para no quedar sin administradores. |
+| Admin le quita el rol docente a alguien | Se lo desasigna de sus materias y pierde el acceso de docente. |
 | Materia con varios docentes | Todos ven los mismos datos agregados. |
 
 ## 5. Fuera del MVP

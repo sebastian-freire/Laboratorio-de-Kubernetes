@@ -145,3 +145,15 @@ Todas con **Origen: Asistente (autorizado por D-030)**.
 | D-044 | ¿Dónde viven las variables de entorno? | Un `.env` en la raíz · Un `.env` por componente | **Un único `.env` en la raíz** (lo leen Compose, el backend y Vite con `envDir: '..'`) | Un solo archivo que copiar y completar. | Parámetro normal |
 | D-045 | ¿Contra qué base corren las pruebas? | Base PostgreSQL de pruebas separada · SQLite en memoria | **PostgreSQL de pruebas separada** (`feedback_test`, creada por el script de init del contenedor) | Mismas restricciones y tipos que en producción; la de desarrollo nunca se toca. | Asistente (D-030) |
 | D-046 | Estilo de dependencias de FastAPI | `Annotated[...]` · `= Depends()` en argumentos | **`Annotated`** | Estilo recomendado por FastAPI; deja pasar el lint (ruff B008) sin excepciones. | Parámetro normal |
+
+---
+
+# Fase 4 — Backend y base de datos (2026-10-20)
+
+| ID | Pregunta | Opciones consideradas | Elegida | Motivo | Origen |
+|----|----------|-----------------------|---------|--------|--------|
+| D-047 | Códigos HTTP de error | 400 para validaciones · 422 (default de FastAPI) | **422 para validaciones; 403 para plazo cerrado o clase futura; 409 para duplicados y conflictos; 404 para recursos ajenos o inexistentes** | Coherente con FastAPI; el mensaje en español va en `detail` para que el frontend lo muestre tal cual. | Asistente (D-030) |
+| D-048 | Datos del seed | Fechas fijas · Fechas relativas al día de ejecución | **Contenido fijo (semilla aleatoria 2026) y fechas relativas a hoy** (10 semanas antes, 5 después) | Siempre hay clases cerradas, abiertas y futuras para la demo. | Asistente (D-030) |
+| D-049 | Dominio de los emails del seed | `.test` · `example.com` | **`example.com`** | Reservado para ejemplos (RFC 2606); el validador de emails rechaza `.test`. | Parámetro normal |
+| D-050 | Gestión de roles por el admin | — | **Un admin no puede quitarse su propio rol de admin; quitar el rol docente desasigna de las materias** | Evita quedarse sin admins y docentes "fantasma" en las materias. | Asistente (D-030) |
+| D-051 | Usuario de prueba con varios roles | — | **Laura Martínez es docente y admin** | Permite probar el selector de rol (D-028). | Parámetro normal |
