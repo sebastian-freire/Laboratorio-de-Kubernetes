@@ -9,8 +9,18 @@ import type {
   StudentSubjectClasses,
 } from '../../api/types'
 import { RatingPicker } from '../../components/Face'
-import { Alert, Button, EmptyState, Loading, PageHeader, TextArea, TextField } from '../../components/ui'
-import { dateLong, dateShort, dayNumber, groupByMonth, timeShort, weekdayShort } from '../../lib/format'
+import {
+  Alert,
+  Button,
+  EmptyState,
+  LIST_CLASS,
+  Loading,
+  PageHeader,
+  ROW_LINK_CLASS,
+  TextArea,
+  TextField,
+} from '../../components/ui'
+import { dateLong, dateShort, dayNumber, groupByMonth, plural, timeShort, weekdayShort } from '../../lib/format'
 import { useApi } from '../../lib/useApi'
 
 const TEXT_MAX = 500
@@ -38,7 +48,7 @@ function EnrollForm({ onEnrolled }: { onEnrolled: (name: string) => void }) {
   }
 
   return (
-    <form onSubmit={submit} className="mt-8 flex flex-col gap-3 rounded-2xl bg-surface p-4">
+    <form onSubmit={submit} className="mt-10 flex flex-col gap-3 border-t border-line pt-6">
       <TextField
         id="code"
         label="Sumarme a una materia"
@@ -49,7 +59,7 @@ function EnrollForm({ onEnrolled }: { onEnrolled: (name: string) => void }) {
         required
         value={code}
         onChange={(e) => setCode(e.target.value.toUpperCase())}
-        className="min-h-12 rounded-xl border-2 border-line bg-surface px-3.5 font-semibold tracking-[0.2em] outline-none placeholder:font-normal placeholder:tracking-normal focus:border-chalk"
+        className="font-medium tracking-[0.15em] placeholder:font-normal placeholder:tracking-normal"
       />
       {error && <Alert>{error}</Alert>}
       <Button type="submit" variant="secondary" disabled={sending || code.trim() === ''}>
@@ -66,7 +76,11 @@ export function StudentSubjectsPage() {
   return (
     <>
       <PageHeader title="Mis materias" />
-      {enrolled && <Alert kind="success">Te inscribiste en {enrolled}.</Alert>}
+      {enrolled && (
+        <div className="mb-4">
+          <Alert kind="success">Te inscribiste en {enrolled}.</Alert>
+        </div>
+      )}
       {error && <Alert>{error.message}</Alert>}
       {loading && !data && <Loading />}
       {data && data.length === 0 && (
@@ -75,18 +89,18 @@ export function StudentSubjectsPage() {
         </EmptyState>
       )}
       {data && data.length > 0 && (
-        <ul className="divide-y divide-line overflow-hidden rounded-2xl bg-surface">
+        <ul className={LIST_CLASS}>
           {data.map((subject) => (
             <li key={subject.id}>
               <Link
                 to={`/alumno/materias/${subject.id}`}
-                className="flex min-h-16 items-center justify-between gap-3 px-4 py-3 hover:bg-paper"
+                className={`${ROW_LINK_CLASS} justify-between`}
               >
                 <span>
-                  <span className="block text-lg font-semibold">{subject.name}</span>
+                  <span className="block font-medium">{subject.name}</span>
                   <span className="text-sm text-muted">{subject.teachers.join(', ')}</span>
                 </span>
-                <span aria-hidden className="text-2xl text-muted">
+                <span aria-hidden className="text-xl text-muted">
                   ›
                 </span>
               </Link>
@@ -120,33 +134,37 @@ function ClassRow({ item }: { item: StudentClass }) {
   const clickable = item.window_state !== 'upcoming'
   const content = (
     <>
-      <span
-        className={`flex w-14 shrink-0 flex-col items-center rounded-xl py-1.5 ${
-          status.tone === 'action' ? 'bg-marker text-on-marker' : 'bg-paper'
-        }`}
-      >
-        <span className="text-xs font-semibold">{weekdayShort(item.date)}</span>
-        <span className="text-xl leading-none font-bold">{dayNumber(item.date)}</span>
+      <span className="w-10 shrink-0 text-center">
+        <span className="block text-xs text-muted">{weekdayShort(item.date)}</span>
+        <span className="block text-lg leading-tight font-semibold tabular-nums">{dayNumber(item.date)}</span>
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block font-semibold">{timeShort(item.start_time)} h</span>
-        <span className={`text-sm ${status.tone === 'quiet' ? 'text-muted' : 'text-ink'}`}>
-          {status.tone === 'done' && <span aria-hidden>✓ </span>}
+        <span className="block text-sm font-medium">{timeShort(item.start_time)} h</span>
+        <span
+          className={`text-sm ${
+            status.tone === 'action' ? 'font-medium text-brand' : status.tone === 'done' ? 'text-ink' : 'text-muted'
+          }`}
+        >
+          {status.tone === 'done' && (
+            <span aria-hidden className="text-success">
+              ✓{' '}
+            </span>
+          )}
           {status.text}
         </span>
       </span>
       {clickable && (
-        <span aria-hidden className="text-2xl text-muted">
+        <span aria-hidden className="text-xl text-muted">
           ›
         </span>
       )}
     </>
   )
-  const base = 'flex min-h-16 items-center gap-3 px-4 py-2.5'
+  const base = 'flex items-center gap-4 px-4 py-3'
   return (
     <li>
       {clickable ? (
-        <Link to={`/alumno/clases/${item.id}`} className={`${base} hover:bg-paper`}>
+        <Link to={`/alumno/clases/${item.id}`} className={`${base} hover:bg-subtle`}>
           {content}
         </Link>
       ) : (
@@ -161,6 +179,7 @@ export function StudentClassesPage() {
   const { data, error, loading } = useApi<StudentSubjectClasses>(`/student/subjects/${subjectId}/classes`)
   const pendingClasses = data?.classes.filter((c) => c.window_state === 'open' && !c.has_feedback) ?? []
   const pending = pendingClasses.length
+  const upcoming = data?.classes.filter((c) => c.window_state === 'upcoming') ?? []
   const saved = (useLocation().state as { saved?: 'created' | 'updated' } | null)?.saved
 
   return (
@@ -181,8 +200,8 @@ export function StudentClassesPage() {
       {data && data.classes.length === 0 && <EmptyState title="Esta materia todavía no tiene clases cargadas" />}
       {pending > 0 && (
         <section className="mb-8">
-          <h2 className="mb-2 font-semibold">Para opinar</h2>
-          <ul className="divide-y divide-line overflow-hidden rounded-2xl bg-surface">
+          <h2 className="mb-2 text-sm font-semibold">Para opinar</h2>
+          <ul className={LIST_CLASS}>
             {pendingClasses.map((item) => (
               <ClassRow key={item.id} item={item} />
             ))}
@@ -190,16 +209,22 @@ export function StudentClassesPage() {
         </section>
       )}
       {data &&
-        groupByMonth(data.classes).map((group) => (
+        groupByMonth(data.classes.filter((c) => c.window_state !== 'upcoming')).map((group) => (
           <section key={group.month} className="mb-6">
-            <h2 className="mb-2 font-semibold text-muted">{group.month}</h2>
-            <ul className="divide-y divide-line overflow-hidden rounded-2xl bg-surface">
+            <h2 className="mb-2 text-sm font-medium text-muted">{group.month}</h2>
+            <ul className={LIST_CLASS}>
               {group.items.map((item) => (
                 <ClassRow key={item.id} item={item} />
               ))}
             </ul>
           </section>
         ))}
+      {upcoming.length > 0 && (
+        <p className="text-sm text-muted">
+          {plural(upcoming.length, 'clase próxima', 'clases próximas')}, la siguiente el {dateShort(upcoming[0].date)} a las{' '}
+          {timeShort(upcoming[0].start_time)} h. Vas a poder opinar desde ese día.
+        </p>
+      )}
     </>
   )
 }

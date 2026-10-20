@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { Link, NavLink, useParams } from 'react-router'
 import { api, ApiError } from '../../api/client'
 import type { AdminSubject, AdminSubjectDetail, Role, ScheduleRule, User } from '../../api/types'
-import { Alert, Button, EmptyState, Loading, PageHeader, TextField } from '../../components/ui'
+import { Alert, Button, EmptyState, LIST_CLASS, Loading, PageHeader, ROW_LINK_CLASS, TextField } from '../../components/ui'
 import { dayNumber, groupByMonth, timeShort, weekdayShort } from '../../lib/format'
 import { ROLE_LABELS } from '../../lib/roles'
 import { useApi } from '../../lib/useApi'
@@ -14,9 +14,11 @@ const errorText = (err: unknown) => (err instanceof ApiError ? err.message : 'Er
 
 function AdminTabs() {
   const tab = ({ isActive }: { isActive: boolean }) =>
-    `flex min-h-10 items-center rounded-lg px-4 font-semibold ${isActive ? 'bg-surface text-ink shadow-sm' : 'text-muted'}`
+    `-mb-px flex min-h-10 items-center border-b-2 text-sm font-medium ${
+      isActive ? 'border-brand text-ink' : 'border-transparent text-muted hover:text-ink'
+    }`
   return (
-    <nav aria-label="Secciones de administración" className="mb-6 inline-flex rounded-xl bg-line/60 p-1">
+    <nav aria-label="Secciones de administración" className="mb-6 flex gap-6 border-b border-line">
       <NavLink to="/admin" end className={tab}>
         Materias
       </NavLink>
@@ -31,26 +33,28 @@ function TeacherChecklist({
   teachers,
   selected,
   onChange,
+  legend = true,
 }: {
   teachers: User[]
   selected: number[]
   onChange: (ids: number[]) => void
+  legend?: boolean
 }) {
   if (teachers.length === 0) {
     return <p className="text-muted">No hay usuarios con rol docente. Creá uno en Usuarios.</p>
   }
   return (
     <fieldset className="flex flex-col">
-      <legend className="mb-1.5 font-semibold">Docentes</legend>
+      <legend className={legend ? 'mb-1 text-sm font-medium' : 'sr-only'}>Docentes</legend>
       {teachers.map((t) => (
         <label key={t.id} className="flex min-h-11 cursor-pointer items-center gap-3">
           <input
             type="checkbox"
-            className="size-5 accent-[var(--chalk)]"
+            className="size-5 accent-[var(--brand)]"
             checked={selected.includes(t.id)}
             onChange={(e) => onChange(e.target.checked ? [...selected, t.id] : selected.filter((id) => id !== t.id))}
           />
-          <span>
+          <span className="text-[0.9375rem]">
             {t.full_name} <span className="text-sm text-muted">{t.email}</span>
           </span>
         </label>
@@ -85,8 +89,8 @@ function CreateSubjectForm({ onCreated }: { onCreated: () => void }) {
   }
 
   return (
-    <form onSubmit={submit} className="mt-8 flex flex-col gap-4 rounded-2xl bg-surface p-4">
-      <h2 className="text-xl font-bold">Nueva materia</h2>
+    <form onSubmit={submit} className="mt-10 flex flex-col gap-4 border-t border-line pt-6">
+      <h2 className="text-base font-semibold">Nueva materia</h2>
       <TextField id="subject-name" label="Nombre" required minLength={2} maxLength={120} value={name} onChange={(e) => setName(e.target.value)} />
       {teachers.data && <TeacherChecklist teachers={teachers.data} selected={teacherIds} onChange={setTeacherIds} />}
       {error && <Alert>{error}</Alert>}
@@ -109,20 +113,20 @@ export function AdminSubjectsPage() {
       {loading && !data && <Loading />}
       {data?.length === 0 && <EmptyState title="Todavía no hay materias">Creá la primera con el formulario de abajo.</EmptyState>}
       {data && data.length > 0 && (
-        <ul className="divide-y divide-line overflow-hidden rounded-2xl bg-surface">
+        <ul className={LIST_CLASS}>
           {data.map((s) => (
             <li key={s.id}>
-              <Link to={`/admin/materias/${s.id}`} className="flex min-h-20 items-center gap-3 px-4 py-3 hover:bg-paper">
+              <Link to={`/admin/materias/${s.id}`} className={ROW_LINK_CLASS}>
                 <span className="min-w-0 flex-1">
-                  <span className="block text-lg font-semibold">{s.name}</span>
+                  <span className="block font-medium">{s.name}</span>
                   <span className="block text-sm text-muted">
                     {s.teachers.length > 0 ? s.teachers.map((t) => t.full_name).join(', ') : 'Sin docentes'}
                   </span>
                   <span className="text-sm text-muted">
-                    {s.class_count} clases, {s.student_count} alumnos, código <span className="font-semibold tracking-wider text-ink">{s.enrollment_code}</span>
+                    {s.class_count} clases, {s.student_count} alumnos, código <span className="font-mono text-ink">{s.enrollment_code}</span>
                   </span>
                 </span>
-                <span aria-hidden className="text-2xl text-muted">
+                <span aria-hidden className="text-xl text-muted">
                   ›
                 </span>
               </Link>
@@ -154,8 +158,8 @@ function TeachersEditor({ subject, onSaved }: { subject: AdminSubjectDetail; onS
   }
 
   return (
-    <section className="mb-8 flex flex-col gap-3 rounded-2xl bg-surface p-4">
-      {teachers.data && <TeacherChecklist teachers={teachers.data} selected={selected} onChange={setSelected} />}
+    <section className="mb-10 flex flex-col gap-3">
+      {teachers.data && <TeacherChecklist teachers={teachers.data} selected={selected} onChange={setSelected} legend={false} />}
       {message && <Alert kind={message.kind}>{message.text}</Alert>}
       <Button variant="secondary" onClick={save}>
         Guardar docentes
@@ -194,19 +198,19 @@ function ScheduleGenerator({ subjectId, onGenerated }: { subjectId: number; onGe
   }
 
   return (
-    <form onSubmit={submit} className="mb-8 flex flex-col gap-4 rounded-2xl bg-surface p-4">
+    <form onSubmit={submit} className="mb-10 flex flex-col gap-4">
       <p className="text-muted">Elegí el período y los días y horarios en que se dicta. Las fechas que ya tienen clase no se duplican.</p>
       <div className="grid grid-cols-2 gap-3">
         <TextField id="start" label="Desde" type="date" required value={startDate} onChange={(e) => setStartDate(e.target.value)} />
         <TextField id="end" label="Hasta" type="date" required value={endDate} onChange={(e) => setEndDate(e.target.value)} />
       </div>
       <fieldset className="flex flex-col gap-2">
-        <legend className="mb-1.5 font-semibold">Días y horarios</legend>
+        <legend className="mb-1 text-sm font-medium">Días y horarios</legend>
         {rules.map((rule, i) => (
           <div key={i} className="flex items-center gap-2">
             <select
               aria-label={`Día del horario ${i + 1}`}
-              className="min-h-12 flex-1 rounded-xl border-2 border-line bg-surface px-3"
+              className="min-h-11 flex-1 rounded-lg border border-line bg-surface px-3 text-base"
               value={rule.weekday}
               onChange={(e) => updateRule(i, { weekday: Number(e.target.value) })}
             >
@@ -220,7 +224,7 @@ function ScheduleGenerator({ subjectId, onGenerated }: { subjectId: number; onGe
               type="time"
               aria-label={`Hora del horario ${i + 1}`}
               required
-              className="min-h-12 rounded-xl border-2 border-line bg-surface px-3"
+              className="min-h-11 rounded-lg border border-line bg-surface px-3 text-base"
               value={rule.start_time}
               onChange={(e) => updateRule(i, { start_time: e.target.value })}
             />
@@ -229,7 +233,7 @@ function ScheduleGenerator({ subjectId, onGenerated }: { subjectId: number; onGe
               aria-label={`Quitar horario ${i + 1}`}
               disabled={rules.length === 1}
               onClick={() => setRules(rules.filter((_, j) => j !== i))}
-              className="grid size-12 place-items-center rounded-xl text-xl text-muted hover:bg-paper disabled:opacity-30"
+              className="grid size-11 place-items-center rounded-lg text-xl text-muted hover:bg-subtle disabled:opacity-30"
             >
               ×
             </button>
@@ -278,17 +282,17 @@ export function AdminSubjectPage() {
   return (
     <>
       <PageHeader title={data.name} back={back}>
-        Código de inscripción <span className="font-bold tracking-[0.2em] text-ink">{data.enrollment_code}</span>, {data.student_count} alumnos
+        Código de inscripción <span className="font-mono font-medium text-ink">{data.enrollment_code}</span>, {data.student_count} alumnos
         inscriptos
       </PageHeader>
 
-      <h2 className="mb-3 text-xl font-bold">Docentes</h2>
+      <h2 className="mb-3 text-base font-semibold">Docentes</h2>
       <TeachersEditor key={data.teachers.map((t) => t.id).join(',')} subject={data} onSaved={reload} />
 
-      <h2 className="mb-3 text-xl font-bold">Generar clases</h2>
+      <h2 className="mb-3 text-base font-semibold">Generar clases</h2>
       <ScheduleGenerator subjectId={data.id} onGenerated={reload} />
 
-      <h2 className="mb-3 text-xl font-bold">Clases ({data.classes.length})</h2>
+      <h2 className="mb-3 text-base font-semibold">Clases ({data.classes.length})</h2>
       {deleteError && (
         <div className="mb-3">
           <Alert>{deleteError}</Alert>
@@ -298,7 +302,7 @@ export function AdminSubjectPage() {
       {groupByMonth(data.classes).map((group) => (
         <section key={group.month} className="mb-5">
           <h3 className="mb-2 font-semibold text-muted">{group.month}</h3>
-          <ul className="divide-y divide-line overflow-hidden rounded-2xl bg-surface">
+          <ul className={LIST_CLASS}>
             {group.items.map((c) => {
               const label = `${weekdayShort(c.date).toLowerCase()} ${dayNumber(c.date)}, ${timeShort(c.start_time)} h`
               return (
@@ -307,7 +311,7 @@ export function AdminSubjectPage() {
                     {weekdayShort(c.date)} {dayNumber(c.date)}, {timeShort(c.start_time)} h
                   </span>
                   {c.can_delete ? (
-                    <button onClick={() => remove(c.id, label)} className="min-h-11 rounded-lg px-3 text-correction hover:bg-correction-soft">
+                    <button onClick={() => remove(c.id, label)} className="min-h-11 rounded-lg px-3 text-danger hover:bg-danger-soft">
                       Eliminar
                     </button>
                   ) : (
@@ -333,7 +337,7 @@ function RoleChecks({ value, onChange, idPrefix }: { value: Role[]; onChange: (r
           <input
             id={`${idPrefix}-${role}`}
             type="checkbox"
-            className="size-5 accent-[var(--chalk)]"
+            className="size-5 accent-[var(--brand)]"
             checked={value.includes(role)}
             onChange={(e) => onChange(e.target.checked ? [...value, role] : value.filter((r) => r !== role))}
           />
@@ -369,7 +373,7 @@ function UserRow({ user, onSaved }: { user: User; onSaved: () => void }) {
           {!editing && <span className="text-sm">{user.roles.map((r) => ROLE_LABELS[r]).join(', ')}</span>}
         </span>
         {!editing && (
-          <button onClick={() => setEditing(true)} className="min-h-11 shrink-0 rounded-lg px-3 text-chalk hover:bg-paper">
+          <button onClick={() => setEditing(true)} className="min-h-11 shrink-0 rounded-lg px-3 text-brand hover:bg-subtle">
             Editar roles
           </button>
         )}
@@ -425,8 +429,8 @@ function CreateUserForm({ onCreated }: { onCreated: () => void }) {
   }
 
   return (
-    <form onSubmit={submit} className="mt-8 flex flex-col gap-4 rounded-2xl bg-surface p-4">
-      <h2 className="text-xl font-bold">Nuevo usuario</h2>
+    <form onSubmit={submit} className="mt-10 flex flex-col gap-4 border-t border-line pt-6">
+      <h2 className="text-base font-semibold">Nuevo usuario</h2>
       <TextField id="new-name" label="Nombre y apellido" required minLength={2} value={fullName} onChange={(e) => setFullName(e.target.value)} />
       <TextField id="new-email" label="Email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
       <TextField
@@ -462,7 +466,7 @@ export function AdminUsersPage() {
       {error && <Alert>{error.message}</Alert>}
       {loading && !data && <Loading />}
       {data && (
-        <ul className="divide-y divide-line overflow-hidden rounded-2xl bg-surface">
+        <ul className={LIST_CLASS}>
           {data.map((user) => (
             <UserRow key={`${user.id}-${user.roles.join()}`} user={user} onSaved={reload} />
           ))}

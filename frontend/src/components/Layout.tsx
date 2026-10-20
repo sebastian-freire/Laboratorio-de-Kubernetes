@@ -15,42 +15,36 @@ export function Layout() {
 
   return (
     <div className="min-h-dvh">
-      <header className="border-b border-line bg-surface">
-        <div className="mx-auto flex max-w-xl items-center justify-between gap-3 px-4 py-3">
-          <Link to={ROLE_HOME[activeRole]} className="flex min-h-10 items-center gap-2 font-bold">
-            <span aria-hidden className="grid size-8 place-items-center rounded-lg bg-chalk text-on-chalk">
-              ✓
-            </span>
-            <span className="leading-tight">Feedback de clases</span>
+      <header className="sticky top-0 z-10 border-b border-line bg-surface">
+        <div className="mx-auto flex h-14 max-w-2xl items-center justify-between gap-3 px-4">
+          <Link to={ROLE_HOME[activeRole]} className="shrink-0 text-[0.9375rem] font-semibold tracking-tight">
+            Feedback de clases
           </Link>
-          <button
-            onClick={logout}
-            className="min-h-10 rounded-lg px-3 text-muted hover:bg-paper hover:text-ink"
-          >
-            Salir
-          </button>
+          <div className="flex min-w-0 items-center gap-1">
+            <span className="truncate text-sm text-muted">{user.full_name}</span>
+            <button onClick={logout} className="min-h-9 shrink-0 rounded-md px-2.5 text-sm font-medium text-brand hover:bg-subtle">
+              Salir
+            </button>
+          </div>
         </div>
         {user.roles.length > 1 && (
-          <nav aria-label="Cambiar de rol" className="mx-auto max-w-xl px-4 pb-3">
-            <div className="grid auto-cols-fr grid-flow-col rounded-xl bg-paper p-1">
-              {user.roles.map((role) => (
-                <button
-                  key={role}
-                  onClick={() => switchRole(role)}
-                  aria-pressed={role === activeRole}
-                  className={`min-h-10 rounded-lg text-sm font-semibold ${
-                    role === activeRole ? 'bg-surface text-ink shadow-sm' : 'text-muted'
-                  }`}
-                >
-                  {ROLE_LABELS[role]}
-                </button>
-              ))}
-            </div>
+          <nav aria-label="Cambiar de rol" className="mx-auto flex max-w-2xl gap-6 px-4">
+            {user.roles.map((role) => (
+              <button
+                key={role}
+                onClick={() => switchRole(role)}
+                aria-pressed={role === activeRole}
+                className={`-mb-px min-h-10 border-b-2 text-sm font-medium ${
+                  role === activeRole ? 'border-brand text-ink' : 'border-transparent text-muted hover:text-ink'
+                }`}
+              >
+                {ROLE_LABELS[role]}
+              </button>
+            ))}
           </nav>
         )}
       </header>
-      <main className="mx-auto max-w-xl px-4 pt-6 pb-16">
-        <p className="mb-1 text-sm text-muted">{user.full_name}</p>
+      <main className="mx-auto max-w-2xl px-4 pt-6 pb-16">
         <Outlet />
       </main>
     </div>
