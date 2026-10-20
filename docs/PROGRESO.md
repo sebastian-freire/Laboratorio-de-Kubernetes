@@ -1,6 +1,6 @@
 # Progreso del proyecto: Feedback de clases
 
-**Fase actual:** 4, Backend y base de datos (en curso)
+**Fase actual:** 5, Frontend mobile-first (en curso)
 **Última actualización:** 2026-10-20
 
 ## Estado por fase
@@ -11,8 +11,8 @@
 | 1 | Definición funcional (sin código) | ✅ Hecha |
 | 2 | Arquitectura (antes de programar) | ✅ Hecha |
 | 3 | Esqueleto y entorno local | ✅ Hecha |
-| 4 | Backend y base de datos | 🔄 En curso |
-| 5 | Frontend mobile-first | ⏳ Pendiente |
+| 4 | Backend y base de datos | ✅ Hecha |
+| 5 | Frontend mobile-first | 🔄 En curso |
 | 6 | Extras (opcional) | ⏳ Pendiente |
 | 7 | Cierre de la etapa | ⏳ Pendiente |
 
@@ -26,15 +26,17 @@
 - Checkpoint de la Fase 1: el equipo autorizó continuar todas las fases sin encuestas (D-030).
 - Fase 2: stack y autenticación (D-031 a D-042) y `docs/ARQUITECTURA.md` (versión inicial, antes de programar), commiteado antes de escribir código.
 - Fase 3: `docker-compose.yml` (solo PostgreSQL, con base de pruebas), `.env.example`, backend FastAPI con `GET /api/health` y su prueba, Alembic configurado, frontend React + Vite + Tailwind con una página que consume el health check, y `README.md`.
+- Fase 4: modelo y migración inicial (Alembic), seed reproducible, autenticación JWT con roles múltiples, 18 endpoints (alumno, docente, admin) documentados en `/docs`, reglas de negocio en el backend y 73 pruebas automáticas (`uv run pytest`). Las pruebas detectaron y se corrigió un bug en el promedio por materia.
 
 ## Falta
 
-- Fase 4: migraciones, seed, autenticación, endpoints y pruebas.
-- Fases 5 a 7.
+- Fase 5: pantallas mobile-first para los tres roles.
+- Fases 6 y 7.
 
 ## Preguntas pendientes
 
 - **Remoto Git:** ¿dónde va a estar alojado el repo (GitHub, GitLab, servidor del laboratorio)? Hace falta para trabajar con Pull Requests. Lo crea el equipo; el asistente no publica nada sin confirmación.
+- **Archivo `team3.kubeconfig`:** apareció en la carpeta durante la Fase 3. Se agregó `*.kubeconfig` al `.gitignore` y no se commiteó ni se leyó. Se usará en la etapa de despliegue.
 - **Carpeta en OneDrive:** el proyecto está dentro de OneDrive. La sincronización puede chocar con `.git` y con carpetas pesadas como `node_modules` o entornos virtuales. Conviene que cada integrante clone el repo en una carpeta fuera de OneDrive.
 
 ## Fuera de alcance en esta etapa (sección 2.1)

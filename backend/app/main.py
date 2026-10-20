@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
-from app.routers import health
+from app.routers import admin, auth, health, student, teacher
 
 
 def create_app() -> FastAPI:
@@ -20,7 +20,8 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    app.include_router(health.router, prefix="/api")
+    for module in (health, auth, student, teacher, admin):
+        app.include_router(module.router, prefix="/api")
     return app
 
 
