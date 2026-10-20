@@ -134,3 +134,14 @@ Todas con **Origen: Asistente (autorizado por D-030)**.
 | D-040 | Idioma | Código en inglés · Código en español | **Interfaz en español; código, API y base en inglés** | Convención de los frameworks y de las librerías; el glosario de ARQUITECTURA.md mapea los términos. |
 | D-041 | Gestor de paquetes Python | uv · pip + requirements.txt · Poetry | **uv** (ya instalado) | Instalación rápida y lockfile reproducible; `uv run pytest` es el comando único de pruebas. |
 | D-042 | Dónde vive el token en el frontend | localStorage · cookie httpOnly | **localStorage** | Lo más simple con JWT Bearer; el riesgo de XSS se mitiga porque React escapa el contenido y no se usa `dangerouslySetInnerHTML`. |
+
+---
+
+# Fase 3 — Esqueleto y entorno local (2026-10-20)
+
+| ID | Pregunta | Opciones consideradas | Elegida | Motivo | Origen |
+|----|----------|-----------------------|---------|--------|--------|
+| D-043 | ¿Cómo se corre la base en local? | Docker Compose solo para la base · PostgreSQL instalado · Base en la nube | **Docker Compose solo para PostgreSQL** (`postgres:18-alpine`) | Mismo entorno para los cinco con un comando; nada que instalar aparte de Docker. | Asistente (D-030) |
+| D-044 | ¿Dónde viven las variables de entorno? | Un `.env` en la raíz · Un `.env` por componente | **Un único `.env` en la raíz** (lo leen Compose, el backend y Vite con `envDir: '..'`) | Un solo archivo que copiar y completar. | Parámetro normal |
+| D-045 | ¿Contra qué base corren las pruebas? | Base PostgreSQL de pruebas separada · SQLite en memoria | **PostgreSQL de pruebas separada** (`feedback_test`, creada por el script de init del contenedor) | Mismas restricciones y tipos que en producción; la de desarrollo nunca se toca. | Asistente (D-030) |
+| D-046 | Estilo de dependencias de FastAPI | `Annotated[...]` · `= Depends()` en argumentos | **`Annotated`** | Estilo recomendado por FastAPI; deja pasar el lint (ruff B008) sin excepciones. | Parámetro normal |
