@@ -27,7 +27,7 @@
 - **Fase 6:** planilla CSV, palabras más repetidas y comparación entre materias.
 - **Fase 7:** verificación desde cero en un clon limpio fuera de OneDrive, siguiendo solo el README: base, migraciones, seed, 82 pruebas en verde, build y lint del frontend, recorrido de los tres roles en el navegador, descarga del CSV y sesión vencida. Se agregaron al README los usuarios de prueba y una sección de problemas comunes.
 
-- **Ajuste posterior:** cambio al estilo visual sobrio institucional a pedido del equipo (D-064). Verificado a 360 y 375 px, en claro y oscuro, sin errores ni scroll horizontal.
+- **Ajuste posterior:** cambio al estilo visual sobrio institucional a pedido del equipo (D-064). La app queda siempre en modo claro (D-065). Verificado a 360 y 375 px, sin errores ni scroll horizontal.
 
 ## Checklist contra los requisitos (sección 1.1)
 
