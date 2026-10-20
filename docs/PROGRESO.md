@@ -1,6 +1,6 @@
 # Progreso del proyecto: Feedback de clases
 
-**Fase actual:** etapa de desarrollo terminada (fases 0 a 7); falta la confirmación final del equipo
+**Fase actual:** etapa de desarrollo **cerrada** por el equipo el 2026-10-20. Próxima etapa: despliegue (Kubernetes y Jenkins), ver "Pendiente para la etapa de despliegue".
 **Última actualización:** 2026-10-20
 
 ## Estado por fase
