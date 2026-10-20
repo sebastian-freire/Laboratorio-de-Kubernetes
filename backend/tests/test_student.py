@@ -327,3 +327,27 @@ def test_student_cannot_use_teacher_or_admin_endpoints(client, setup):
 
 def test_student_endpoints_require_login(client):
     assert client.get("/api/student/subjects").status_code == 401
+
+
+def test_class_detail_includes_subject_and_own_status(client, factory, setup):
+    student, subject, _ = setup
+    class_session = factory.class_session(subject, days_ago=2)
+    factory.feedback(class_session, student)
+
+    response = client.get(f"/api/student/classes/{class_session.id}", headers=auth(student))
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["subject"]["name"] == "Bases de Datos"
+    assert body["class_session"]["has_feedback"] is True
+    assert body["class_session"]["window_state"] == "open"
+
+
+def test_class_detail_of_a_subject_not_enrolled_is_404(client, factory):
+    class_session = factory.class_session(factory.subject(), days_ago=1)
+
+    response = client.get(
+        f"/api/student/classes/{class_session.id}", headers=auth(factory.student())
+    )
+
+    assert response.status_code == 404

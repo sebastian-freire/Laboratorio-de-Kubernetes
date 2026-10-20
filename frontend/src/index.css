@@ -1,1 +1,94 @@
+@import '@fontsource-variable/atkinson-hyperlegible-next';
 @import 'tailwindcss';
+
+/*
+ * Tokens de diseño "aula": tinta azul, verde pizarrón, amarillo resaltador, rojo corrección.
+ * Las utilidades de Tailwind (bg-surface, text-ink, etc.) leen estas variables,
+ * así el modo oscuro solo redefine los valores.
+ */
+@theme {
+  --font-sans: 'Atkinson Hyperlegible Next Variable', system-ui, sans-serif;
+
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-chalk: var(--chalk);
+  --color-chalk-soft: var(--chalk-soft);
+  --color-on-chalk: var(--on-chalk);
+  --color-marker: var(--marker);
+  --color-on-marker: var(--on-marker);
+  --color-correction: var(--correction);
+  --color-correction-soft: var(--correction-soft);
+  --color-face-1: var(--face-1);
+  --color-face-2: var(--face-2);
+  --color-face-3: var(--face-3);
+  --color-face-4: var(--face-4);
+  --color-face-5: var(--face-5);
+}
+
+:root {
+  color-scheme: light;
+  --paper: #f3f5f9;
+  --surface: #ffffff;
+  --ink: #1b2541;
+  --muted: #56617f;
+  --line: #dce2ec;
+  --chalk: #16805a; /* validado para la línea del gráfico (dataviz) */
+  --chalk-soft: #e3f2ea;
+  --on-chalk: #ffffff;
+  --marker: #f6d04d;
+  --on-marker: #1b2541;
+  --correction: #b3372f;
+  --correction-soft: #fbe9e7;
+  --face-1: #c2413b;
+  --face-2: #de7e52;
+  --face-3: #8a93a8;
+  --face-4: #4b9f7b;
+  --face-5: #16805a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --paper: #0f1626;
+    --surface: #182136;
+    --ink: #e8ecf5;
+    --muted: #a3adc6;
+    --line: #2b3652;
+    --chalk: #2fa374; /* validado contra --surface oscuro */
+    --chalk-soft: #17362d;
+    --on-chalk: #0f1626;
+    --marker: #e9c23f;
+    --on-marker: #1b2541;
+    --correction: #f07a70;
+    --correction-soft: #3a1f24;
+    --face-1: #e8675f;
+    --face-2: #e99a6f;
+    --face-3: #8d97ad;
+    --face-4: #5cb58e;
+    --face-5: #2fa374;
+  }
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid var(--chalk);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

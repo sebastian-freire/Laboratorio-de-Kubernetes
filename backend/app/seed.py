@@ -128,6 +128,7 @@ def maybe(rng: random.Random, pool: list[str], probability: float) -> str | None
 
 def reset(db: Session) -> None:
     db.execute(text("TRUNCATE users, subjects RESTART IDENTITY CASCADE"))
+    db.expunge_all()  # descarta objetos en memoria de antes del borrado
 
 
 def seed(db: Session) -> dict[str, int]:
